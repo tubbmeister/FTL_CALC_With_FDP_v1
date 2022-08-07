@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Array_0530_0544">
+        <item>12:30</item>    <!-- duty time -->
+        <item>12:00</item>     <!-- 0 deg 5000' elev -->
+        <item>11:30</item>   <!-- 0 deg 10000' elev -->
+
+
+
+
+
+
+
+    </string-array>
+
+</resources>
