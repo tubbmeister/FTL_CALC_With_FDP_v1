@@ -239,6 +239,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Blocks_on_Time.setText("");
         Last_Take_Off1.setText("");
         Last_Take_Off2.setText("");
+        First_Sector_Time.setText("");
+        Second_Sector_Time.setText("");
 
         Pressed=false;
 
