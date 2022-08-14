@@ -411,7 +411,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String am_pm;
 
         if (Pressed==false) {
-
+                // hello
             hour = datePicker1.getHour();
             minute = datePicker1.getMinute();
             if (minute < 10) {
