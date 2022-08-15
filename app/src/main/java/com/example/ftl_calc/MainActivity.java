@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AppBarConfiguration appBarConfiguration;
     //private ActivityMainBinding binding;
     TimePicker datePicker1;
-    Boolean Pressed,Sector1_Pressed,Sector2_Pressed,Sector3_Pressed,Sector4_Pressed;
+    Boolean Pressed,Sector1_Pressed,Sector2_Pressed,Sector3_Pressed,Sector4_Pressed,DiscretionOn,ExtendedOn;
     String[] First_Array,Array_0600_1329,Array_1330_1359,Array_1400_1429,Array_1430_1459,Array1600_1629,Array_1630_1659,Array_1700_0459,Array_0500_0514,Array_0515_0529,Array_0530_0544,Array_0545_0559;
     LocalTime date1, date2, date3, date4,date5, MaxDuty1, MinTurn, Duty_Start, Taxi1, Pre_Flight_Time1,SUTTO1;
     LocalTime FDP1,FDP2,FDP3,FDP4,FDP5,FDP6,FDP7,FDP8,FDP9,FDP10,FDP11,FDP12,FDP13,FDP14,FDP15,FDP16,FDP17,FDP18,FDP19,FDP20,FDP21,FDP22,FDP23,FDP24,FDP25,FDP26,FDP27,FDP28,FDP29,DiscretionAmount,ExtendedDutyTime,MaxDutyCalc,MaxDutyCalc1;
@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Taxi1 = timeFormat.parse(taxi);
         String Pre_Flight_Time="01:00";
         CheckBoxChecker=0;
+        DiscretionOn=false; //is discretion selected?
+        ExtendedOn=false;  //is Extended selected?
 
 
 
@@ -182,16 +184,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         String MaxDutyDay1 = MAX_FDP.getText().toString(); //get current max fdp
 
                         //MaxDutyCalc=timeFormat.parse((MaxDutyDay));
-                        LocalTime MaxDutyCalc=LocalTime.parse(MaxDutyDay);
+                       // LocalTime MaxDutyCalc=LocalTime.parse(MaxDutyDay);
                        // MaxDutyCalc1=timeFormat.parse((MaxDutyDay1));
-                        LocalTime MaxDutyCalc1=LocalTime.parse(MaxDutyDay1);
-                        if(CheckBoxChecker==1){    //sees if extended duty is ticked
+                      //  LocalTime MaxDutyCalc1=LocalTime.parse(MaxDutyDay1);
+                        DiscretionAmount=LocalTime.parse("02:00");
+                        if(ExtendedOn==true){    //sees if extended duty is ticked NB must use "==" not"="!!!!!
                             DiscretionAmount=LocalTime.parse(("01:00"));
+                            DiscretionOn=true;
 
                         }
 
 
-                         DiscretionAmount = LocalTime.parse("02:00");
+                        // DiscretionAmount = LocalTime.parse("02:00");
                       //  sum=MaxDutyCalc.plusHours(DiscretionAmount.getHour()).plusHours(MaxDutyCalc1.getHour()).plusMinutes(MaxDutyCalc1.getMinute());
                         //date5=timeFormat.format((new Date(sum)));
                       //  Blocks_on_Time.setText(sum.toString()); //add 2 hours discretion.
@@ -209,6 +213,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         date5=timeFormat.format((new Date(sum)));
                         Blocks_on_Time.setText(date5); //add 2 hours discretion. //take off discretion*/
                         CheckBoxChecker=CheckBoxChecker-1;
+                        DiscretionOn=false;
+                        if (ExtendedOn==true){
+                            Blocks_on_Time.setTextColor(Color.parseColor("#E30B56"));
+
+                        }
                     }
                 } catch (DateTimeParseException e) {
                     e.printStackTrace();
@@ -235,10 +244,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 //is chkIos checked?
                 if (((CheckBox) v).isChecked()) {
+                    ExtendedOn=true;
 
                     Blocks_on_Time.setTextColor(Color.parseColor("#E30B56"));
                     ExtendedDutyTime=LocalTime.parse("01:00");
-                    if(CheckBoxChecker>0){
+                    if(DiscretionOn==true){
                         DiscretionAmount=LocalTime.parse("01:00");
                     }CheckBoxChecker=CheckBoxChecker+1;
                 }
@@ -246,6 +256,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Blocks_on_Time.setTextColor(Color.parseColor("#0B0B0B"));
                     CheckBoxChecker=CheckBoxChecker-1;
                     ExtendedDutyTime=LocalTime.parse("00:00");
+                    ExtendedOn=false;
+                    if (DiscretionOn==true){ //is discretion is selected, keep highlight red.
+                        Blocks_on_Time.setTextColor(Color.parseColor("#E30B56"));
+                        DiscretionAmount=LocalTime.parse("02:00");
+                    }
                 }
                 // sendMessage(v);// run calc again
                 Set_Time_Click(v);//must be within this VIEW
@@ -453,7 +468,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         String FDP_Start = Duty_Start_Time.getText().toString();
-        LocalTime timeFormat = LocalTime.parse(Duty_Start_Time.getText());
+        int i = FDP_Start.length(); //NB time MUST have "00:00" not "0:00" or will fail
+        if(i<5) {
+            FDP_Start=("0"+FDP_Start);
+        }
+        LocalTime timeFormat = LocalTime.parse(FDP_Start);
         //SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
        // timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
@@ -875,7 +894,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // String MaxDutyString="12:00";
 
-        LocalTime timeFormat = LocalTime.parse(Duty_Start_Time.getText());
+
+
+        LocalTime timeFormat = LocalTime.parse(DutyStart);
         //SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
        // timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
