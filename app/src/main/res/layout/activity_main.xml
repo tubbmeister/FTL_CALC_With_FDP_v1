@@ -478,6 +478,7 @@
         android:background="@drawable/border"
         android:backgroundTint="#E1E8EC"
 
+
         android:text="Max Discretion"
         android:textColor="@color/black"
         android:visibility="visible"
@@ -490,6 +491,7 @@
         android:layout_height="49dp"
         android:background="@drawable/border"
         android:backgroundTint="#E1E8EC"
+
 
         android:text="Extended Duty"
         android:textColor="@color/black"

@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Boolean Pressed,Sector1_Pressed,Sector2_Pressed,Sector3_Pressed,Sector4_Pressed;
     String[] First_Array,Array_0600_1329,Array_1330_1359,Array_1400_1429,Array_1430_1459,Array1600_1629,Array_1630_1659,Array_1700_0459,Array_0500_0514,Array_0515_0529,Array_0530_0544,Array_0545_0559;
     LocalTime date1, date2, date3, date4,date5, MaxDuty1, MinTurn, Duty_Start, Taxi1, Pre_Flight_Time1,SUTTO1;
-    LocalTime FDP1,FDP2,FDP3,FDP4,FDP5,FDP6,FDP7,FDP8,FDP9,FDP10,FDP11,FDP12,FDP13,FDP14,FDP15,FDP16,FDP17,FDP18,FDP19,FDP20,FDP21,FDP22,FDP23,FDP24,FDP25,FDP26,FDP27,FDP28,FDP29,DiscretionAmount,MaxDutyCalc,MaxDutyCalc1;
+    LocalTime FDP1,FDP2,FDP3,FDP4,FDP5,FDP6,FDP7,FDP8,FDP9,FDP10,FDP11,FDP12,FDP13,FDP14,FDP15,FDP16,FDP17,FDP18,FDP19,FDP20,FDP21,FDP22,FDP23,FDP24,FDP25,FDP26,FDP27,FDP28,FDP29,DiscretionAmount,ExtendedDutyTime,MaxDutyCalc,MaxDutyCalc1;
     Button Set_Time_Button,Reset;
     RadioButton Sector_1, Sector_2, Sector_3, Sector_4;
     double first, second;
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RadioGroup Sectors_Group;
     private CheckBox Extended_checkBox2,MaxDiscretion_checkBox;
     String Y3;
+    int CheckBoxChecker;
 
 
     @Override
@@ -79,9 +80,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        // Extended_checkBox2=findViewById(R.id.Extended_checkBox2);
 
 
-        String taxi = "0:05"; //taxi in to shutdown
+        String taxi = "00:05"; //taxi in to shutdown
         //Taxi1 = timeFormat.parse(taxi);
-        String Pre_Flight_Time="1:00";
+        String Pre_Flight_Time="01:00";
+        CheckBoxChecker=0;
+
 
 
         Last_Take_Off1=findViewById(R.id.Last_Take_Off1);
@@ -120,7 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
-        //DiscretionAmount=timeFormat.parse("02:00");
+        DiscretionAmount=LocalTime.parse("00:00");
+        ExtendedDutyTime=LocalTime.parse("00:00");
        //Extended_checkBox2.setOnCheckedChangeListener(this);
 
                // MaxDiscretion_checkBox.setOnCheckedChangeListener(this);
@@ -158,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void addListenerMaxDiscretion() {
 
         MaxDiscretion_checkBox=findViewById(R.id.MaxDiscretion_checkBox);
+        Extended_checkBox2=findViewById(R.id.Extended_checkBox2); //new
         MaxDiscretion_checkBox.setOnClickListener(new View.OnClickListener() {
 
 
@@ -180,12 +185,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         LocalTime MaxDutyCalc=LocalTime.parse(MaxDutyDay);
                        // MaxDutyCalc1=timeFormat.parse((MaxDutyDay1));
                         LocalTime MaxDutyCalc1=LocalTime.parse(MaxDutyDay1);
+                        if(CheckBoxChecker==1){    //sees if extended duty is ticked
+                            DiscretionAmount=LocalTime.parse(("01:00"));
+
+                        }
 
 
                          DiscretionAmount = LocalTime.parse("02:00");
                       //  sum=MaxDutyCalc.plusHours(DiscretionAmount.getHour()).plusHours(MaxDutyCalc1.getHour()).plusMinutes(MaxDutyCalc1.getMinute());
                         //date5=timeFormat.format((new Date(sum)));
                       //  Blocks_on_Time.setText(sum.toString()); //add 2 hours discretion.
+                        CheckBoxChecker=CheckBoxChecker+1;
 
 
                     } else {
@@ -198,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         sum=MaxDutyCalc.getTime()+MaxDutyCalc1.getTime();
                         date5=timeFormat.format((new Date(sum)));
                         Blocks_on_Time.setText(date5); //add 2 hours discretion. //take off discretion*/
-
+                        CheckBoxChecker=CheckBoxChecker-1;
                     }
                 } catch (DateTimeParseException e) {
                     e.printStackTrace();
@@ -213,6 +223,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+
     public void addListenerExtDuty() {
 
         Extended_checkBox2=findViewById(R.id.Extended_checkBox2);
@@ -223,12 +235,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(View v) {
                 //is chkIos checked?
                 if (((CheckBox) v).isChecked()) {
+
                     Blocks_on_Time.setTextColor(Color.parseColor("#E30B56"));
+                    ExtendedDutyTime=LocalTime.parse("01:00");
+                    if(CheckBoxChecker>0){
+                        DiscretionAmount=LocalTime.parse("01:00");
+                    }CheckBoxChecker=CheckBoxChecker+1;
                 }
                 else  {
                     Blocks_on_Time.setTextColor(Color.parseColor("#0B0B0B"));
+                    CheckBoxChecker=CheckBoxChecker-1;
+                    ExtendedDutyTime=LocalTime.parse("00:00");
                 }
                 // sendMessage(v);// run calc again
+                Set_Time_Click(v);//must be within this VIEW
             }
         });
 
@@ -471,7 +491,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             FDP27 = LocalTime.parse("06:00");
             FDP28 = LocalTime.parse("23:59");
             FDP29 = LocalTime.parse("00:00");
-            DiscretionAmount=LocalTime.parse("02:00");
+           // DiscretionAmount=LocalTime.parse("02:00");
             Resources r = getResources(); //allows array to be loaded
 
             if (Destination<3){ //if less than 3 sectors, must be made to equal 1to choose first figure in array
@@ -719,14 +739,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Blocks_on_Time.setText(date5.toString());
             }
 
-           if (MaxDiscretion_checkBox.isChecked()) {
+           //if (MaxDiscretion_checkBox.isChecked()) {
                //DiscTime=timeFormat.parse(DiscretionAmount);
-               sum=sum.plusHours(DiscretionAmount.getHour()).plusMinutes(DiscretionAmount.getMinute());
+               sum=sum.plusHours(DiscretionAmount.getHour()).plusMinutes(DiscretionAmount.getMinute()).plusHours(ExtendedDutyTime.getHour()).plusMinutes(ExtendedDutyTime.getMinute());
                //sum=sum+DiscretionAmount;
                date5=sum;
                Blocks_on_Time.setText(date5.toString()); //add 2 hours discretion.
 
-           }
+           //}
+           //else
+          // if(Extended_checkBox2.isChecked()&& (MaxDiscretion_checkBox.isChecked())){
+          //     sum=sum.plusHours(DiscretionAmount.getHour()).plusMinutes(DiscretionAmount.getMinute());
+               //sum=sum+DiscretionAmount;
+           //    date5=sum;
+            //   Blocks_on_Time.setText(date5.toString()); //add 2 hours discretion.
+           //}
 
         } catch (DateTimeParseException e) {
             e.printStackTrace();
@@ -810,7 +837,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         double userAnswer = 5;
 
         String time1 = First_Sector_Time.getText().toString();//entered flight time
-        int i = time1.length();
+        int i = time1.length(); //NB time MUST have "00:00" not "0:00" or will fail
         if(i<5) {
             time1=("0"+time1);
         }
@@ -861,7 +888,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             date4 = LocalTime.parse(time4);
             MinTurn = LocalTime.parse(time5);
             MaxDuty1 = LocalTime.parse(MaxDutyString);
-            MaxDuty1=MaxDuty1.plusHours(DiscretionAmount.getHour());
+            MaxDuty1=MaxDuty1.plusHours(DiscretionAmount.getHour()).plusHours(ExtendedDutyTime.getHour());
             Duty_Start = LocalTime.parse(DutyStart);
             String taxi = "00:05"; //taxi in to shutdown
             Taxi1 = LocalTime.parse(taxi);
