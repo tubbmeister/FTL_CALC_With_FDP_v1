@@ -79,6 +79,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        // Extended_checkBox2=findViewById(R.id.Extended_checkBox2);
 
 
+        String taxi = "0:05"; //taxi in to shutdown
+        //Taxi1 = timeFormat.parse(taxi);
+        String Pre_Flight_Time="1:00";
+
+
         Last_Take_Off1=findViewById(R.id.Last_Take_Off1);
         Last_Take_Off2=findViewById(R.id.Last_Take_Off2);
         Last_Take_Off3=findViewById(R.id.Last_Take_Off3);
@@ -199,10 +204,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
 
-
+                Set_Time_Click(v);//must be within this VIEW
             }
 
-    });}
+    });
+
+
+
+    }
 
     public void addListenerExtDuty() {
 
@@ -433,36 +442,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         try {
 
-            FDP1 = timeFormat.parse(FDP_Start);
-            FDP2 = timeFormat.parse("05:59");
-            FDP3 = timeFormat.parse("13:30");
-            FDP4 = timeFormat.parse("13:29");
-            FDP5 = timeFormat.parse("14:00");
-            FDP6 = timeFormat.parse("13:59");
-            FDP7 = timeFormat.parse("14:30");
-            FDP8 = timeFormat.parse("14:29");
-            FDP9 = timeFormat.parse("15:00");
-            FDP10 = timeFormat.parse("14:59");
-            FDP11 = timeFormat.parse("15:30");
-            FDP12 = timeFormat.parse("15:29");
-            FDP13 = timeFormat.parse("16:00");
-            FDP14 = timeFormat.parse("15:59");
-            FDP15 = timeFormat.parse("16:30");
-            FDP16 = timeFormat.parse("16:29");
-            FDP17 = timeFormat.parse("17:00");
-            FDP18 = timeFormat.parse("16:59");
-            FDP19 = timeFormat.parse("05:00");
-            FDP20 = timeFormat.parse("04:59");
-            FDP21 = timeFormat.parse("05:15");
-            FDP22 = timeFormat.parse("05:14");
-            FDP23 = timeFormat.parse("05:30");
-            FDP24 = timeFormat.parse("05:29");
-            FDP25 = timeFormat.parse("05:45");
-            FDP26 = timeFormat.parse("05:44");
-            FDP27 = timeFormat.parse("06:00");
-            FDP28 = timeFormat.parse("23:59");
-            FDP29 = timeFormat.parse("00:00");
-            DiscretionAmount=timeFormat.parse("02:00");
+            FDP1 = LocalTime.parse(FDP_Start);
+            FDP2 = LocalTime.parse("05:59");
+            FDP3 = LocalTime.parse("13:30");
+            FDP4 = LocalTime.parse("13:29");
+            FDP5 = LocalTime.parse("14:00");
+            FDP6 = LocalTime.parse("13:59");
+            FDP7 = LocalTime.parse("14:30");
+            FDP8 = LocalTime.parse("14:29");
+            FDP9 = LocalTime.parse("15:00");
+            FDP10 = LocalTime.parse("14:59");
+            FDP11 = LocalTime.parse("15:30");
+            FDP12 = LocalTime.parse("15:29");
+            FDP13 = LocalTime.parse("16:00");
+            FDP14 = LocalTime.parse("15:59");
+            FDP15 = LocalTime.parse("16:30");
+            FDP16 = LocalTime.parse("16:29");
+            FDP17 = LocalTime.parse("17:00");
+            FDP18 = LocalTime.parse("16:59");
+            FDP19 = LocalTime.parse("05:00");
+            FDP20 = LocalTime.parse("04:59");
+            FDP21 = LocalTime.parse("05:15");
+            FDP22 = LocalTime.parse("05:14");
+            FDP23 = LocalTime.parse("05:30");
+            FDP24 = LocalTime.parse("05:29");
+            FDP25 = LocalTime.parse("05:45");
+            FDP26 = LocalTime.parse("05:44");
+            FDP27 = LocalTime.parse("06:00");
+            FDP28 = LocalTime.parse("23:59");
+            FDP29 = LocalTime.parse("00:00");
+            DiscretionAmount=LocalTime.parse("02:00");
             Resources r = getResources(); //allows array to be loaded
 
             if (Destination<3){ //if less than 3 sectors, must be made to equal 1to choose first figure in array
@@ -479,12 +488,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=1;
                 First_Array = r.getStringArray(R.array.Array_0600_1329);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 //date5=timeFormat.format((new Date(sum)));
 
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
 
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute()); //calc new on blocks time from max fdp lookup
                 //date5=timeFormat.format((new Date(sum)));
@@ -496,11 +505,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=2;
                 First_Array = r.getStringArray(R.array.Array_1330_1359);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -510,11 +519,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=3;
                 First_Array = r.getStringArray(R.array.Array_1400_1429);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                 // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -524,11 +533,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=4;
                 First_Array = r.getStringArray(R.array.Array_1430_1459);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                 // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -538,11 +547,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=5;
                 First_Array = r.getStringArray(R.array.Array_1500_1529);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                 // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -552,11 +561,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=6;
                 First_Array = r.getStringArray(R.array.Array_1530_1559);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                 // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -566,11 +575,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=7;
                 First_Array = r.getStringArray(R.array.Array_1600_1629);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                 // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -581,11 +590,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=8;
                 First_Array = r.getStringArray(R.array.Array_1630_1659);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                 // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -595,11 +604,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup = 9;
                 First_Array = r.getStringArray(R.array.Array_1700_0459);
                 Y3 = First_Array[Destination_Array - 1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                 // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -609,11 +618,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Flight_Duty_Table_Lookup=9;
                     First_Array = r.getStringArray(R.array.Array_1700_0459);
                     Y3=First_Array[Destination_Array-1];
-                    date1 = timeFormat.parse(Y3);
+                    date1 = LocalTime.parse(Y3);
                     sum=date1;
                     // date5=timeFormat.format((new Date(sum)));
                     MAX_FDP.setText(date1.toString());
-                    date2=timeFormat.parse(FDP_Start);
+                    date2=LocalTime.parse(FDP_Start);
                     // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                     sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                     date5=sum;
@@ -623,11 +632,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=9;
                 First_Array = r.getStringArray(R.array.Array_1700_0459);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                 // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -638,11 +647,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=9;
                 First_Array = r.getStringArray(R.array.Array_1700_0459);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                 // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -656,11 +665,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=10;
                 First_Array = r.getStringArray(R.array.Array_0500_0514);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                 // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -671,11 +680,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=11;
                 First_Array = r.getStringArray(R.array.Array_0515_0529);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                 // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -685,11 +694,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=12;
                 First_Array = r.getStringArray(R.array.Array_0530_0544);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                 // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -699,11 +708,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Flight_Duty_Table_Lookup=13;
                 First_Array = r.getStringArray(R.array.Array_0545_0559);
                 Y3=First_Array[Destination_Array-1];
-                date1 = timeFormat.parse(Y3);
+                date1 = LocalTime.parse(Y3);
                 sum=date1;
                 // date5=timeFormat.format((new Date(sum)));
                 MAX_FDP.setText(date1.toString());
-                date2=timeFormat.parse(FDP_Start);
+                date2=LocalTime.parse(FDP_Start);
                 // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
                 sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
                 date5=sum;
@@ -728,6 +737,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void Set_Time_Click(View view) { //set time button and radiogroup change
+
+        //MaxDiscretion_checkBox=findViewById(R.id.MaxDiscretion_checkBox);
+
+
+
+
+
+
+
         int hour, minute;
 
         String am_pm;
@@ -790,13 +808,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         double userAnswer = 5;
+
         String time1 = First_Sector_Time.getText().toString();//entered flight time
+        int i = time1.length();
+        if(i<5) {
+            time1=("0"+time1);
+        }
+
         String time2 = Second_Sector_Time.getText().toString();
+         i = time2.length();
+        if(i<5) {
+            time2=("0"+time2);
+        }
         String time3 = Third_Sector_Time.getText().toString();
+         i = time3.length();
+        if(i<5) {
+            time3=("0"+time3);
+        }
         String time4 = Fourth_Sector_Time.getText().toString();
+         i = time4.length();
+        if(i<5) {
+            time4=("0"+time4);
+        }
         String time5 = Min_Turn_Time.getText().toString();
+         i = time5.length();
+        if(i<5) {
+            time5=("0"+time5);
+        }
         String MaxDutyString = MAX_FDP.getText().toString();
+         i = MaxDutyString.length();
+        if(i<5) {
+            MaxDutyString=("0"+MaxDutyString);
+        }
         String DutyStart = Duty_Start_Time.getText().toString();
+         i = DutyStart.length();
+        if(i<5) {
+            DutyStart=("0"+DutyStart);
+        }
 
         // String MaxDutyString="12:00";
 
@@ -805,29 +853,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
        // timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 
-        try {
-            date1 = timeFormat.parse(time1);
-            date2 = timeFormat.parse(time2);
-            date3 = timeFormat.parse(time3);
-            date4 = timeFormat.parse(time4);
-            MinTurn = timeFormat.parse(time5);
-            MaxDuty1 = timeFormat.parse(MaxDutyString);
+        //try {
+        //time1=("01:30");
+            date1 = LocalTime.parse(time1);
+            date2 = LocalTime.parse(time2);
+            date3 = LocalTime.parse(time3);
+            date4 = LocalTime.parse(time4);
+            MinTurn = LocalTime.parse(time5);
+            MaxDuty1 = LocalTime.parse(MaxDutyString);
             MaxDuty1=MaxDuty1.plusHours(DiscretionAmount.getHour());
-            Duty_Start = timeFormat.parse(DutyStart);
-            String taxi = "0:05"; //taxi in to shutdown
-            Taxi1 = timeFormat.parse(taxi);
-            String SUTTO = "0:10"; //taxi in to shutdown
-            SUTTO1 = timeFormat.parse(SUTTO);//SUTTO
-            String Pre_Flight_Time="1:00"; //planning time
+            Duty_Start = LocalTime.parse(DutyStart);
+            String taxi = "00:05"; //taxi in to shutdown
+            Taxi1 = LocalTime.parse(taxi);
+            String SUTTO = "00:10"; //taxi in to shutdown
+            SUTTO1 = LocalTime.parse(SUTTO);//SUTTO
+            String Pre_Flight_Time="01:00"; //planning time
 
-            Pre_Flight_Time1 = timeFormat.parse(Pre_Flight_Time);
+            Pre_Flight_Time1 = LocalTime.parse(Pre_Flight_Time);
 
-        } catch (DateTimeParseException e) {
-            e.printStackTrace();
-        }
+       // } catch (DateTimeParseException e) {
+           // e.printStackTrace();
+        //}
         if (Destination==1){
 
-            sum=date1.plusHours(Taxi1.getHour()).plusMinutes(Taxi1.getMinute()).plusHours(Pre_Flight_Time1.getHour()).plusMinutes(Pre_Flight_Time1.getMinute());
+            sum=date1.plusMinutes(Taxi1.getMinute()).plusHours(Pre_Flight_Time1.getHour()).plusMinutes(Pre_Flight_Time1.getMinute());
             //sum1 = MaxDuty1.getTime() - sum;
             sum1 = MaxDuty1.minusHours(sum.getHour()).minusMinutes(sum.getMinute());
             sum2=date1.plusHours(Taxi1.getHour()).plusMinutes(Taxi1.getMinute()).plusHours(SUTTO1.getHour()).plusMinutes(SUTTO1.getMinute());
