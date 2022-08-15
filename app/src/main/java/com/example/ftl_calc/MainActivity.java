@@ -28,6 +28,7 @@ import android.widget.TimePicker;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -38,12 +39,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TimePicker datePicker1;
     Boolean Pressed,Sector1_Pressed,Sector2_Pressed,Sector3_Pressed,Sector4_Pressed;
     String[] First_Array,Array_0600_1329,Array_1330_1359,Array_1400_1429,Array_1430_1459,Array1600_1629,Array_1630_1659,Array_1700_0459,Array_0500_0514,Array_0515_0529,Array_0530_0544,Array_0545_0559;
-    Date date1, date2, date3, date4, MaxDuty1, MinTurn, Duty_Start, Taxi1, Pre_Flight_Time1,SUTTO1;
-    Date FDP1,FDP2,FDP3,FDP4,FDP5,FDP6,FDP7,FDP8,FDP9,FDP10,FDP11,FDP12,FDP13,FDP14,FDP15,FDP16,FDP17,FDP18,FDP19,FDP20,FDP21,FDP22,FDP23,FDP24,FDP25,FDP26,FDP27,FDP28,FDP29,DiscretionAmount,MaxDutyCalc,MaxDutyCalc1;
+    LocalTime date1, date2, date3, date4,date5, MaxDuty1, MinTurn, Duty_Start, Taxi1, Pre_Flight_Time1,SUTTO1;
+    LocalTime FDP1,FDP2,FDP3,FDP4,FDP5,FDP6,FDP7,FDP8,FDP9,FDP10,FDP11,FDP12,FDP13,FDP14,FDP15,FDP16,FDP17,FDP18,FDP19,FDP20,FDP21,FDP22,FDP23,FDP24,FDP25,FDP26,FDP27,FDP28,FDP29,DiscretionAmount,MaxDutyCalc,MaxDutyCalc1;
     Button Set_Time_Button,Reset;
     RadioButton Sector_1, Sector_2, Sector_3, Sector_4;
     double first, second;
-    long sum,sum1,sum2,sum3,sum4;
+    LocalTime sum,sum1,sum2,sum3,sum4;
     int i = 0, Destination=1,Destination_Array,Flight_Duty_Table_Lookup; //where to send time from picker
     int minuteFirstFromString;
     int hourFirstFromString, hourFirstFromString1, minuteFirstFromString1;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView firstHour, firstMinute, Planned_Duty_Time, Blocks_on_Time, Last_Takeoff_Time,Last_Take_Off1,Last_Take_Off2,Last_Take_Off3,Last_Take_Off4,Max_Discretion_textview;
     RadioGroup Sectors_Group;
     private CheckBox Extended_checkBox2,MaxDiscretion_checkBox;
-    String date5,Y3;
+    String Y3;
 
 
     @Override
@@ -158,8 +159,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 //is chkIos checked?
+                int hour, minute;
                 SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
                 timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                //LocalTime time = LocalTime.of(hour,minute);
 
                 try {
                     if (((CheckBox) v).isChecked()) {
@@ -168,30 +171,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         String MaxDutyDay = Duty_Start_Time.getText().toString(); //get current start of fdp.
                         String MaxDutyDay1 = MAX_FDP.getText().toString(); //get current max fdp
 
-                        MaxDutyCalc=timeFormat.parse((MaxDutyDay));
-                        MaxDutyCalc1=timeFormat.parse((MaxDutyDay1));
+                        //MaxDutyCalc=timeFormat.parse((MaxDutyDay));
+                        LocalTime MaxDutyCalc=LocalTime.parse(MaxDutyDay);
+                       // MaxDutyCalc1=timeFormat.parse((MaxDutyDay1));
+                        LocalTime MaxDutyCalc1=LocalTime.parse(MaxDutyDay1);
 
 
-
-                        DiscretionAmount = timeFormat.parse("02:00");
-                        sum=MaxDutyCalc.getTime()+DiscretionAmount.getTime()+MaxDutyCalc1.getTime();
-                        date5=timeFormat.format((new Date(sum)));
-                        Blocks_on_Time.setText(date5); //add 2 hours discretion.
+                         DiscretionAmount = LocalTime.parse("02:00");
+                      //  sum=MaxDutyCalc.plusHours(DiscretionAmount.getHour()).plusHours(MaxDutyCalc1.getHour()).plusMinutes(MaxDutyCalc1.getMinute());
+                        //date5=timeFormat.format((new Date(sum)));
+                      //  Blocks_on_Time.setText(sum.toString()); //add 2 hours discretion.
 
 
                     } else {
                         Blocks_on_Time.setTextColor(Color.parseColor("#0B0B0B"));
                         String MaxDutyDay = Duty_Start_Time.getText().toString(); //get current start of fdp.
                         String MaxDutyDay1 = MAX_FDP.getText().toString(); //get current max fdp
-
-                        MaxDutyCalc=timeFormat.parse((MaxDutyDay));
+                        DiscretionAmount = LocalTime.parse("00:00");
+                        /*MaxDutyCalc=timeFormat.parse((MaxDutyDay));
                         MaxDutyCalc1=timeFormat.parse((MaxDutyDay1));
                         sum=MaxDutyCalc.getTime()+MaxDutyCalc1.getTime();
                         date5=timeFormat.format((new Date(sum)));
-                        Blocks_on_Time.setText(date5); //add 2 hours discretion. //take off discretion
+                        Blocks_on_Time.setText(date5); //add 2 hours discretion. //take off discretion*/
 
                     }
-                } catch (ParseException e) {
+                } catch (DateTimeParseException e) {
                     e.printStackTrace();
                 }
 
@@ -241,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Last_Take_Off2.setText("");
         First_Sector_Time.setText("");
         Second_Sector_Time.setText("");
-
+        Destination=1;
         Pressed=false;
 
 
@@ -330,7 +334,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onSubmitClick(View view) { //accessed by "Calc" button and radio button change
 
 
-        //   TextView Answer = findViewById(R.id.resultView);
+        /* //   TextView Answer = findViewById(R.id.resultView);
         //EditText Attempt = findViewById(R.id.numberEntry);
         //   TextView Result= findViewById(R.id.TotalMinutesView);
         String tester = First_Sector_Time.getText().toString();
@@ -398,7 +402,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn; //do FDP change
         btn=(Button)findViewById(R.id.FDP_Calc_btn); //FDP calc button runs FDP_Lookup
 
-        btn.performClick();
+        btn.performClick();*/
 
 
 
@@ -420,9 +424,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
         String FDP_Start = Duty_Start_Time.getText().toString();
-       // LocalTime timeFormat = LocalTime.parse(Duty_Start_Time.getText());
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        LocalTime timeFormat = LocalTime.parse(Duty_Start_Time.getText());
+        //SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+       // timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 
 
@@ -471,231 +475,251 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Destination_Array=3; //must reduce to access 0 based array
             }
 
-            if (FDP1.after(FDP2) && FDP1.before(FDP3)){
+            if (FDP1.MIN.isAfter(FDP2) && FDP1.isBefore(FDP3)){
                 Flight_Duty_Table_Lookup=1;
                 First_Array = r.getStringArray(R.array.Array_0600_1329);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+                //date5=timeFormat.format((new Date(sum)));
+
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute()); //calc new on blocks time from max fdp lookup
+                //date5=timeFormat.format((new Date(sum)));
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
 
             }
-            if (FDP1.after(FDP4) && FDP1.before(FDP5)){
+            if (FDP1.isAfter(FDP4) && FDP1.isBefore(FDP5)){
                 Flight_Duty_Table_Lookup=2;
                 First_Array = r.getStringArray(R.array.Array_1330_1359);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+               // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+               // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
             }
-            if (FDP1.after(FDP6) && FDP1.before(FDP7)){
+            if (FDP1.isAfter(FDP6) && FDP1.isBefore(FDP7)){
                 Flight_Duty_Table_Lookup=3;
                 First_Array = r.getStringArray(R.array.Array_1400_1429);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+                // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
             }
-            if (FDP1.after(FDP8) && FDP1.before(FDP9)){
+            if (FDP1.isAfter(FDP8) && FDP1.isBefore(FDP9)){
                 Flight_Duty_Table_Lookup=4;
                 First_Array = r.getStringArray(R.array.Array_1430_1459);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+                // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
             }
-            if (FDP1.after(FDP10) && FDP1.before(FDP11)){
+            if (FDP1.isAfter(FDP10) && FDP1.isBefore(FDP11)){
                 Flight_Duty_Table_Lookup=5;
                 First_Array = r.getStringArray(R.array.Array_1500_1529);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+                // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
             }
-            if (FDP1.after(FDP12) && FDP1.before(FDP13)){
+            if (FDP1.isAfter(FDP12) && FDP1.isBefore(FDP13)){
                 Flight_Duty_Table_Lookup=6;
                 First_Array = r.getStringArray(R.array.Array_1530_1559);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+                // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
             }
-            if (FDP1.after(FDP14) && FDP1.before(FDP15)){
+            if (FDP1.isAfter(FDP14) && FDP1.isBefore(FDP15)){
                 Flight_Duty_Table_Lookup=7;
                 First_Array = r.getStringArray(R.array.Array_1600_1629);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+                // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
 
             }
-            if (FDP1.after(FDP16) && FDP1.before(FDP17)){
+            if (FDP1.isAfter(FDP16) && FDP1.isBefore(FDP17)){
                 Flight_Duty_Table_Lookup=8;
                 First_Array = r.getStringArray(R.array.Array_1630_1659);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+                // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
             }
-            if (FDP1.after(FDP18) && FDP1.before(FDP28)) {
+            if (FDP1.isAfter(FDP18) && FDP1.isBefore(FDP28)) {
                 Flight_Duty_Table_Lookup = 9;
                 First_Array = r.getStringArray(R.array.Array_1700_0459);
                 Y3 = First_Array[Destination_Array - 1];
                 date1 = timeFormat.parse(Y3);
-                sum = date1.getTime();
-                date5 = timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
-                date2 = timeFormat.parse(FDP_Start);
-                sum = sum + date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5 = timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+                sum=date1;
+                // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
+                date2=timeFormat.parse(FDP_Start);
+                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
             }
-                if (FDP1.after(FDP29) && FDP1.before(FDP19)){
+                if (FDP1.isAfter(FDP29) && FDP1.isBefore(FDP19)){
                     Flight_Duty_Table_Lookup=9;
                     First_Array = r.getStringArray(R.array.Array_1700_0459);
                     Y3=First_Array[Destination_Array-1];
                     date1 = timeFormat.parse(Y3);
-                    sum=date1.getTime();
-                    date5=timeFormat.format((new Date(sum)));
-                    MAX_FDP.setText(date5);
+                    sum=date1;
+                    // date5=timeFormat.format((new Date(sum)));
+                    MAX_FDP.setText(date1.toString());
                     date2=timeFormat.parse(FDP_Start);
-                    sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                    date5=timeFormat.format((new Date(sum)));
-                    Blocks_on_Time.setText(date5);
+                    // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                    sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                    date5=sum;
+                    Blocks_on_Time.setText(date5.toString());
             }
-            if (FDP1.after(FDP18) && FDP1.before(FDP29)){ //after 1700 until 2359
+            if (FDP1.isAfter(FDP18) && FDP1.isBefore(FDP29)){ //after 1700 until 2359
                 Flight_Duty_Table_Lookup=9;
                 First_Array = r.getStringArray(R.array.Array_1700_0459);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+                // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
             }
 
-            if (FDP1==FDP29){ //does not work!!
+            if (FDP1.equals(FDP29)){ //does not work!!
                 Flight_Duty_Table_Lookup=9;
                 First_Array = r.getStringArray(R.array.Array_1700_0459);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+                // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
             }
 
 
 
 
-            if (FDP1.after(FDP20) && FDP1.before(FDP21)){
+            if (FDP1.isAfter(FDP20) && FDP1.isBefore(FDP21)){
                 Flight_Duty_Table_Lookup=10;
                 First_Array = r.getStringArray(R.array.Array_0500_0514);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+                // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
 
             }
-            if (FDP1.after(FDP22) && FDP1.before(FDP23)){
+            if (FDP1.isAfter(FDP22) && FDP1.isBefore(FDP23)){
                 Flight_Duty_Table_Lookup=11;
                 First_Array = r.getStringArray(R.array.Array_0515_0529);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+                // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
             }
-            if (FDP1.after(FDP24) && FDP1.before(FDP25)){
+            if (FDP1.isAfter(FDP24) && FDP1.isBefore(FDP25)){
                 Flight_Duty_Table_Lookup=12;
                 First_Array = r.getStringArray(R.array.Array_0530_0544);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+                // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
             }
-            if (FDP1.after(FDP26) && FDP1.before(FDP27)){
+            if (FDP1.isAfter(FDP26) && FDP1.isBefore(FDP27)){
                 Flight_Duty_Table_Lookup=13;
                 First_Array = r.getStringArray(R.array.Array_0545_0559);
                 Y3=First_Array[Destination_Array-1];
                 date1 = timeFormat.parse(Y3);
-                sum=date1.getTime();
-                date5=timeFormat.format((new Date(sum)));
-                MAX_FDP.setText(date5);
+                sum=date1;
+                // date5=timeFormat.format((new Date(sum)));
+                MAX_FDP.setText(date1.toString());
                 date2=timeFormat.parse(FDP_Start);
-                sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
-                date5=timeFormat.format((new Date(sum)));
-                Blocks_on_Time.setText(date5);
+                // sum=sum+date2.getTime(); //calc new on blocks time from max fdp lookup
+                sum=sum.plusHours(date2.getHour()).plusMinutes(date2.getMinute());
+                date5=sum;
+                Blocks_on_Time.setText(date5.toString());
             }
 
            if (MaxDiscretion_checkBox.isChecked()) {
-               sum=sum+DiscretionAmount.getTime();
-               date5=timeFormat.format((new Date(sum)));
-               Blocks_on_Time.setText(date5); //add 2 hours discretion.
+               //DiscTime=timeFormat.parse(DiscretionAmount);
+               sum=sum.plusHours(DiscretionAmount.getHour()).plusMinutes(DiscretionAmount.getMinute());
+               //sum=sum+DiscretionAmount;
+               date5=sum;
+               Blocks_on_Time.setText(date5.toString()); //add 2 hours discretion.
 
            }
 
-        } catch (ParseException e) {
+        } catch (DateTimeParseException e) {
             e.printStackTrace();
         }
 
@@ -741,7 +765,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else
                 Fourth_Sector_Time.setText(hour + ":" + minute);
 
-        } else if (Destination == 5) {
+        } else if (Destination == 5) { //what is this for?
             if (minute < 10) {
                 Duty_Start_Time.setText(hour + ":" + "0" + minute);
             } else
@@ -766,7 +790,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         double userAnswer = 5;
-        String time1 = First_Sector_Time.getText().toString();
+        String time1 = First_Sector_Time.getText().toString();//entered flight time
         String time2 = Second_Sector_Time.getText().toString();
         String time3 = Third_Sector_Time.getText().toString();
         String time4 = Fourth_Sector_Time.getText().toString();
@@ -776,9 +800,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // String MaxDutyString="12:00";
 
-
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-        timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+        LocalTime timeFormat = LocalTime.parse(Duty_Start_Time.getText());
+        //SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+       // timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 
         try {
@@ -788,6 +812,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             date4 = timeFormat.parse(time4);
             MinTurn = timeFormat.parse(time5);
             MaxDuty1 = timeFormat.parse(MaxDutyString);
+            MaxDuty1=MaxDuty1.plusHours(DiscretionAmount.getHour());
             Duty_Start = timeFormat.parse(DutyStart);
             String taxi = "0:05"; //taxi in to shutdown
             Taxi1 = timeFormat.parse(taxi);
@@ -797,100 +822,120 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Pre_Flight_Time1 = timeFormat.parse(Pre_Flight_Time);
 
-        } catch (ParseException e) {
+        } catch (DateTimeParseException e) {
             e.printStackTrace();
         }
         if (Destination==1){
 
-            sum=date1.getTime()+ Taxi1.getTime()+Pre_Flight_Time1.getTime();
-            sum1 = MaxDuty1.getTime() - sum;
-            sum2=date1.getTime()+ Taxi1.getTime()+SUTTO1.getTime();
-            sum3 = Duty_Start.getTime() + MaxDuty1.getTime()-sum2; //changes here
-            String date5 = timeFormat.format((new Date(sum3)));//last takeoff
-            Last_Take_Off1.setText(date5);
-            sum4=sum+Pre_Flight_Time1.getTime();
-            date5=timeFormat.format((new Date(sum)));
-            Planned_Duty_Time.setText(date5);
+            sum=date1.plusHours(Taxi1.getHour()).plusMinutes(Taxi1.getMinute()).plusHours(Pre_Flight_Time1.getHour()).plusMinutes(Pre_Flight_Time1.getMinute());
+            //sum1 = MaxDuty1.getTime() - sum;
+            sum1 = MaxDuty1.minusHours(sum.getHour()).minusMinutes(sum.getMinute());
+            sum2=date1.plusHours(Taxi1.getHour()).plusMinutes(Taxi1.getMinute()).plusHours(SUTTO1.getHour()).plusMinutes(SUTTO1.getMinute());
+            sum3 = Duty_Start.plusHours(MaxDuty1.getHour()).plusMinutes(MaxDuty1.getMinute()).minusHours(sum2.getHour()).minusMinutes(sum2.getMinute()); //changes here
+            //String date5 = timeFormat.format((new Date(sum3)));//last takeoff
+            Last_Take_Off1.setText(sum3.toString());
+            sum4=sum.plusHours(Pre_Flight_Time1.getHour()).plusMinutes(Pre_Flight_Time1.getMinute());
+            //date5=timeFormat.format((new Date(sum)));
+            Planned_Duty_Time.setText(sum4.toString());
 
 
         }
         if (Destination==2){
-            sum=date2.getTime()+ Taxi1.getTime()+SUTTO1.getTime();
-            sum1 = MaxDuty1.getTime() - sum;
-            sum3 = Duty_Start.getTime() + sum1;
-             date5 = timeFormat.format((new Date(sum3)));//last takeoff
-            Last_Take_Off2.setText(date5);
-            sum=date1.getTime()+ date2.getTime()+MinTurn.getTime()+ Taxi1.getTime()+SUTTO1.getTime()+SUTTO1.getTime()+Taxi1.getTime();
-            sum1 = MaxDuty1.getTime() - sum;
-            sum3 = Duty_Start.getTime() + sum1;
-             date5 = timeFormat.format((new Date(sum3)));//last takeoff
-            Last_Take_Off1.setText(date5);
-            sum4=sum+Pre_Flight_Time1.getTime();
-            date5=timeFormat.format((new Date(sum4)));
-            Planned_Duty_Time.setText(date5);
+            sum=date2.plusHours(Taxi1.getHour()).plusMinutes(Taxi1.getMinute()).plusHours(SUTTO1.getHour()).plusMinutes(SUTTO1.getMinute());
+            sum1 = MaxDuty1.minusHours(sum.getHour()).minusMinutes(sum.getMinute());
+            sum3 = Duty_Start.plusHours(sum1.getHour()).plusMinutes(sum1.getMinute());
+             //date5 = timeFormat.format((new Date(sum3)));//last takeoff
+            Last_Take_Off2.setText(sum3.toString());
+            //sum=date1.getTime()+ date2.getTime()+MinTurn.getTime()+ Taxi1.getTime()+SUTTO1.getTime()+SUTTO1.getTime()+Taxi1.getTime();
+            sum=date1.plusHours(date2.getHour()).plusMinutes(date2.getMinute()).plusMinutes(MinTurn.getMinute()).plusMinutes(Taxi1.getMinute()).plusMinutes(SUTTO1.getMinute()).plusMinutes(SUTTO1.getMinute()).plusMinutes(Taxi1.getMinute());
+            sum1 = MaxDuty1.minusHours(sum.getHour()).minusMinutes(sum.getMinute());
+            sum3 = Duty_Start.plusHours(sum1.getHour()).plusMinutes(sum1.getMinute());
+            // date5 = timeFormat.format((new Date(sum3)));//last takeoff
+            Last_Take_Off1.setText(sum3.toString());
+            sum4=sum.plusHours(Pre_Flight_Time1.getHour()).plusMinutes(Pre_Flight_Time1.getMinute());
+            //date5=timeFormat.format((new Date(sum4)));
+            Planned_Duty_Time.setText(sum4.toString());
 
 
         }
         if (Destination==3) {
-            sum=date3.getTime()+ Taxi1.getTime()+SUTTO1.getTime();
-            sum1 = MaxDuty1.getTime() - sum;
-            sum3 = Duty_Start.getTime() + sum1;
-            date5 = timeFormat.format((new Date(sum3)));//last takeoff
-            Last_Take_Off3.setText(date5);
-            sum=date2.getTime()+ date3.getTime()+MinTurn.getTime()+ Taxi1.getTime()+ Taxi1.getTime()+SUTTO1.getTime()+SUTTO1.getTime();
-            sum1 = MaxDuty1.getTime() - sum;
-            sum3 = Duty_Start.getTime() + sum1;
-            date5 = timeFormat.format((new Date(sum3)));//last takeoff
-            Last_Take_Off2.setText(date5);
-            sum = date1.getTime() + date2.getTime() + date3.getTime()+MinTurn.getTime()+MinTurn.getTime()+ Taxi1.getTime()+Taxi1.getTime() + Taxi1.getTime()+SUTTO1.getTime()+SUTTO1.getTime()+SUTTO1.getTime(); //3 x turn & taxi times
-            sum1 = MaxDuty1.getTime() - sum;
-            sum3 = Duty_Start.getTime() + sum1;
-            date5 = timeFormat.format((new Date(sum3)));//last takeoff
-            Last_Take_Off1.setText(date5);
-            sum4=sum+Pre_Flight_Time1.getTime();
-            date5=timeFormat.format((new Date(sum4)));
-            Planned_Duty_Time.setText(date5);
+            sum=date3.plusHours(Taxi1.getHour()).plusMinutes(Taxi1.getMinute()).plusHours(SUTTO1.getHour()).plusMinutes(SUTTO1.getMinute());
+            sum1 = MaxDuty1.minusHours(sum.getHour()).minusMinutes(sum.getMinute());
+            sum3 = Duty_Start.plusHours(sum1.getHour()).plusMinutes(sum1.getMinute());
+            //date5 = timeFormat.format((new Date(sum3)));//last takeoff
+            Last_Take_Off3.setText(sum3.toString());
+            //sum=date2.getTime()+ date3.getTime()+MinTurn.getTime()+ Taxi1.getTime()+ Taxi1.getTime()+SUTTO1.getTime()+SUTTO1.getTime();
+            sum=date2.plusHours(date3.getHour()).plusMinutes(date3.getMinute()).plusMinutes(MinTurn.getMinute()).plusMinutes(Taxi1.getMinute()).plusMinutes(Taxi1.getMinute()).plusMinutes(SUTTO1.getMinute()).plusMinutes(SUTTO1.getMinute());
+            sum1 = MaxDuty1.minusHours(sum.getHour()).minusMinutes(sum.getMinute());
+            sum3 = Duty_Start.plusHours(sum1.getHour()).plusMinutes(sum1.getMinute());
+            //date5 = timeFormat.format((new Date(sum3)));//last takeoff
+            Last_Take_Off2.setText(sum3.toString());
+            //sum = date1.getTime() + date2.getTime() + date3.getTime()+MinTurn.getTime()+MinTurn.getTime()+ Taxi1.getTime()+Taxi1.getTime() + Taxi1.getTime()+SUTTO1.getTime()+SUTTO1.getTime()+SUTTO1.getTime(); //3 x turn & taxi times
+            sum=date1.plusHours(date2.getHour()).plusMinutes(date2.getMinute()).plusHours(date3.getHour()).plusMinutes(date3.getMinute()).plusMinutes(MinTurn.getMinute()).plusMinutes(MinTurn.getMinute()).plusHours(Taxi1.getHour()).plusMinutes(Taxi1.getMinute()).plusMinutes(Taxi1.getMinute()).plusHours(SUTTO1.getHour()).plusMinutes(SUTTO1.getMinute()).plusHours(SUTTO1.getHour());
+            //sum1 = MaxDuty1.getTime() - sum;
+            sum1 = MaxDuty1.minusHours(sum.getHour()).minusMinutes(sum.getMinute());
+            //sum3 = Duty_Start.getTime() + sum1;
+            sum3 = Duty_Start.plusHours(sum1.getHour()).plusMinutes(sum1.getMinute());
+            //date5 = timeFormat.format((new Date(sum3)));//last takeoff
+            Last_Take_Off1.setText(sum3.toString());
+            //sum4=sum+Pre_Flight_Time1.getTime();
+            sum4=sum.plusHours(Pre_Flight_Time1.getHour()).plusMinutes(Pre_Flight_Time1.getMinute());
+            //date5=timeFormat.format((new Date(sum4)));
+            Planned_Duty_Time.setText(sum4.toString());
 
         }
         if (Destination==4) {
-            sum=date4.getTime()+ Taxi1.getTime()+SUTTO1.getTime();
-            sum1 = MaxDuty1.getTime() - sum;
-            sum3 = Duty_Start.getTime() + sum1;
-            date5 = timeFormat.format((new Date(sum3)));//last takeoff
-            Last_Take_Off4.setText(date5);
-            sum=date3.getTime()+ date4.getTime()+MinTurn.getTime()+ Taxi1.getTime()+ Taxi1.getTime()+SUTTO1.getTime()+SUTTO1.getTime();
-            sum1 = MaxDuty1.getTime() - sum;
-            sum3 = Duty_Start.getTime() + sum1;
-            date5 = timeFormat.format((new Date(sum3)));//last takeoff
-            Last_Take_Off3.setText(date5);
-            sum = date2.getTime() + date3.getTime()+ date4.getTime()+MinTurn.getTime()+ Taxi1.getTime()+MinTurn.getTime()+ Taxi1.getTime() + Taxi1.getTime()+SUTTO1.getTime()+SUTTO1.getTime()+SUTTO1.getTime();
-            sum1 = MaxDuty1.getTime() - sum;
-            sum3 = Duty_Start.getTime() + sum1;
-            date5 = timeFormat.format((new Date(sum3)));//last takeoff
-            Last_Take_Off2.setText(date5);
-            sum = date1.getTime()+MinTurn.getTime()+date2.getTime()+MinTurn.getTime()+ Taxi1.getTime() + date3.getTime()+ +MinTurn.getTime() + Taxi1.getTime()+date4.getTime() + Taxi1.getTime()+SUTTO1.getTime()+SUTTO1.getTime()+SUTTO1.getTime()+SUTTO1.getTime();
-            sum1 = MaxDuty1.getTime() - sum;
-            sum3 = Duty_Start.getTime() + sum1;
-            date5 = timeFormat.format((new Date(sum3)));//last takeoff
-            Last_Take_Off1.setText(date5);
-            sum4=sum+Pre_Flight_Time1.getTime();
-            date5=timeFormat.format((new Date(sum4)));
-            Planned_Duty_Time.setText(date5);
+            //sum=date4.getTime()+ Taxi1.getTime()+SUTTO1.getTime();
+            sum=date4.plusHours(Taxi1.getHour()).plusMinutes(Taxi1.getMinute()).plusHours(SUTTO1.getHour());
+           // sum1 = MaxDuty1.getTime() - sum;
+            sum1 = MaxDuty1.minusHours(sum.getHour()).minusMinutes(sum.getMinute());
+            //sum3 = Duty_Start.getTime() + sum1;
+            sum3 = Duty_Start.plusHours(sum1.getHour()).plusMinutes(sum1.getMinute());
+           // date5 = timeFormat.format((new Date(sum3)));//last takeoff
+            Last_Take_Off4.setText(sum3.toString());
+            //sum=date3.getTime()+ date4.getTime()+MinTurn.getTime()+ Taxi1.getTime()+ Taxi1.getTime()+SUTTO1.getTime()+SUTTO1.getTime();
+            sum=date3.plusHours(date4.getHour()).plusMinutes(date4.getMinute()).plusMinutes(MinTurn.getMinute()).plusMinutes(Taxi1.getMinute()).plusMinutes(Taxi1.getMinute()).plusMinutes(SUTTO1.getMinute()).plusMinutes(SUTTO1.getMinute());
+            //sum1 = MaxDuty1.getTime() - sum;
+            sum1 = MaxDuty1.minusHours(sum.getHour()).minusMinutes(sum.getMinute());
+            //sum3 = Duty_Start.getTime() + sum1;
+            sum3 = Duty_Start.plusHours(sum1.getHour()).plusMinutes(sum1.getMinute());
+            //date5 = timeFormat.format((new Date(sum3)));//last takeoff
+            Last_Take_Off3.setText(sum3.toString());
+            sum=date2.plusHours(date3.getHour()).plusMinutes(date3.getMinute()).plusHours(date4.getHour()).plusMinutes(date4.getMinute()).plusMinutes(MinTurn.getMinute()).plusMinutes(Taxi1.getMinute()).plusMinutes(MinTurn.getMinute()).plusMinutes(Taxi1.getMinute()).plusMinutes(Taxi1.getMinute()).plusMinutes(SUTTO1.getMinute()).plusMinutes(SUTTO1.getMinute()).plusMinutes(SUTTO1.getMinute());
+           // sum = date2.getTime() + date3.getTime()+ date4.getTime()+MinTurn.getTime()+ Taxi1.getTime()+MinTurn.getTime()+ Taxi1.getTime() + Taxi1.getTime()+SUTTO1.getTime()+SUTTO1.getTime()+SUTTO1.getTime();
+            //sum1 = MaxDuty1.getTime() - sum;
+            sum1 = MaxDuty1.minusHours(sum.getHour()).minusMinutes(sum.getMinute());
+            //sum3 = Duty_Start.getTime() + sum1;
+            sum3 = Duty_Start.plusHours(sum1.getHour()).plusMinutes(sum1.getMinute());
+            //date5 = timeFormat.format((new Date(sum3)));//last takeoff
+            Last_Take_Off2.setText(sum3.toString());
+            sum=date1.plusHours(date2.getHour()).plusMinutes(date2.getMinute()).plusHours(date3.getHour()).plusMinutes(date3.getMinute()).plusHours(date4.getHour()).plusMinutes(date4.getMinute()).plusMinutes(MinTurn.getMinute()).plusMinutes(Taxi1.getMinute()).plusMinutes(MinTurn.getMinute()).plusMinutes(MinTurn.getMinute()).plusMinutes(Taxi1.getMinute()).plusMinutes(Taxi1.getMinute()).plusMinutes(Taxi1.getMinute()).plusMinutes(SUTTO1.getMinute()).plusMinutes(SUTTO1.getMinute()).plusMinutes(SUTTO1.getMinute()).plusMinutes(SUTTO1.getMinute());
+            //sum = date1.getTime()+MinTurn.getTime()+date2.getTime()+MinTurn.getTime()+ Taxi1.getTime() + date3.getTime()+ +MinTurn.getTime() + Taxi1.getTime()+date4.getTime() + Taxi1.getTime()+SUTTO1.getTime()+SUTTO1.getTime()+SUTTO1.getTime()+SUTTO1.getTime();
+            //sum1 = MaxDuty1.getTime() - sum;
+            sum1 = MaxDuty1.minusHours(sum.getHour()).minusMinutes(sum.getMinute());
+            //sum3 = Duty_Start.getTime() + sum1;
+            sum3 = Duty_Start.plusHours(sum1.getHour()).plusMinutes(sum1.getMinute());
+            //date5 = timeFormat.format((new Date(sum3)));//last takeoff
+            Last_Take_Off1.setText(sum3.toString());
+            //sum4=sum+Pre_Flight_Time1.getTime();
+            sum4=sum.plusHours(Pre_Flight_Time1.getHour()).plusMinutes(Pre_Flight_Time1.getMinute());
+            //date5=timeFormat.format((new Date(sum4)));
+            Planned_Duty_Time.setText(sum4.toString());
 
         }
          //sum = date1.getTime() + date2.getTime() + date3.getTime() + date4.getTime() + MinTurn.getTime() + Taxi1.getTime();
         //all sectors plus turns plus taxi to shutdown
-         sum1 = MaxDuty1.getTime() - sum;
-         sum3 = Duty_Start.getTime() + sum1;
-         sum4 = Duty_Start.getTime()+MaxDuty1.getTime();
+        // sum1 = MaxDuty1.getTime() - sum;
+         //sum3 = Duty_Start.getTime() + sum1;
+         sum4 = Duty_Start.plusHours(MaxDuty1.getHour()).plusMinutes(MaxDuty1.getMinute());
 
-        String date3 = timeFormat.format(new Date(sum)); //max length of duties
-        String date4 = timeFormat.format(new Date(sum1));//available time before last takeoff
-        String date5 = timeFormat.format((new Date(sum3)));//last takeoff
-        String date6 = timeFormat.format((new Date(sum4)));//end of FDP
+       // String date3 = timeFormat.format(new Date(sum)); //max length of duties
+       // String date4 = timeFormat.format(new Date(sum1));//available time before last takeoff
+       // String date5 = timeFormat.format((new Date(sum3)));//last takeoff
+       // String date6 = timeFormat.format((new Date(sum4)));//end of FDP
 
        // Planned_Duty_Time.setText(date3);
-        Blocks_on_Time.setText(date6);
+        Blocks_on_Time.setText(sum4.toString());
         //System.out.println("The sum is "+date3);
         Pressed = true;
 
@@ -989,13 +1034,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Last_Take_Off2.setVisibility(View.INVISIBLE);
                         Last_Take_Off3.setVisibility(View.INVISIBLE);
                         Last_Take_Off4.setVisibility(View.INVISIBLE);
-
+                        Destination=1;//first sector
                        /* sum=date1.getTime()+ Taxi1.getTime();
                         sum1 = MaxDuty1.getTime() - sum;
                         sum3 = Duty_Start.getTime() + sum1;
                         date5 = timeFormat.format((new Date(sum3)));//last takeoff
                         Last_Take_Off1.setText(date5);
-                        Destination=1;*/
+                        Destination=1;
 
                         sum=date1.getTime()+ Taxi1.getTime()+Pre_Flight_Time1.getTime();
                         sum1 = MaxDuty1.getTime() - sum;
@@ -1006,7 +1051,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         sum4=sum+Pre_Flight_Time1.getTime();
                         date5=timeFormat.format((new Date(sum)));
                         Planned_Duty_Time.setText(date5);
-                        Sector2_Pressed=false; //sets next selection ready to accept time
+                        Sector2_Pressed=false; //sets next selection ready to accept time*/
 
 
 
@@ -1038,7 +1083,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         sum3 = Duty_Start.getTime() + sum1;
                         date5 = timeFormat.format((new Date(sum3)));//last takeoff
                         Last_Take_Off1.setText(date5);//}
-                        Pressed=true;*/
+                        Pressed=true;
 
                         sum=date2.getTime()+ Taxi1.getTime()+SUTTO1.getTime();
                         sum1 = MaxDuty1.getTime() - sum;
@@ -1052,7 +1097,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Last_Take_Off1.setText(date5);
                         sum4=sum+Pre_Flight_Time1.getTime();
                         date5=timeFormat.format((new Date(sum4)));
-                        Planned_Duty_Time.setText(date5);
+                        Planned_Duty_Time.setText(date5);*/
                         Sector2_Pressed=true; //will not allow time to be deleted until sector 1 pressed again
 
 
@@ -1067,7 +1112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Last_Take_Off4.setVisibility(View.INVISIBLE);
                         Third_Sector_Time.setText("");
                         Destination=3;
-                        sum=date2.getTime()+ Taxi1.getTime()+SUTTO1.getTime();
+                        /*sum=date2.getTime()+ Taxi1.getTime()+SUTTO1.getTime();
                         sum1 = MaxDuty1.getTime() - sum;
                         sum3 = Duty_Start.getTime() + sum1;
                         date5 = timeFormat.format((new Date(sum3)));//last takeoff
@@ -1079,7 +1124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Last_Take_Off1.setText(date5);
                         sum4=sum+Pre_Flight_Time1.getTime();
                         date5=timeFormat.format((new Date(sum4)));
-                        Planned_Duty_Time.setText(date5);
+                        Planned_Duty_Time.setText(date5);*/
 
                         break;
                     case R.id.Sector_4:
