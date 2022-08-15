@@ -289,6 +289,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Last_Take_Off2.setText("");
         First_Sector_Time.setText("");
         Second_Sector_Time.setText("");
+        Planned_Duty_Time.setText("");
+        Sector_1.setChecked(true);
+        Sector_2.setChecked(false);
+        Sector_3.setChecked(false);
+        Sector_4.setChecked(false);
+
+
         Destination=1;
         Pressed=false;
 
