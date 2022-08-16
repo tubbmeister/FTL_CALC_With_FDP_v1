@@ -31,6 +31,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.TimeZone;
+//import com.ftl_calc_with_FDP.BuildConfig;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -49,11 +50,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int minuteFirstFromString;
     int hourFirstFromString, hourFirstFromString1, minuteFirstFromString1;
     EditText First_Sector_Time, Second_Sector_Time, Third_Sector_Time, Fourth_Sector_Time, MAX_FDP, Min_Turn_Time, Duty_Start_Time;
-    TextView firstHour, firstMinute, Planned_Duty_Time, Blocks_on_Time, Last_Takeoff_Time,Last_Take_Off1,Last_Take_Off2,Last_Take_Off3,Last_Take_Off4,Max_Discretion_textview;
+    TextView firstHour, firstMinute, Planned_Duty_Time, Blocks_on_Time, Last_Takeoff_Time,Last_Take_Off1,Last_Take_Off2,Last_Take_Off3,Last_Take_Off4,Max_Discretion_textview,Title;
     RadioGroup Sectors_Group;
     private CheckBox Extended_checkBox2,MaxDiscretion_checkBox;
     String Y3;
     int CheckBoxChecker;
+    int versionCode = BuildConfig.VERSION_CODE;
+    String versionName = BuildConfig.VERSION_NAME;
 
 
     @Override
@@ -93,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Last_Take_Off2=findViewById(R.id.Last_Take_Off2);
         Last_Take_Off3=findViewById(R.id.Last_Take_Off3);
         Last_Take_Off4=findViewById(R.id.Last_Take_Off4);
+        Title=findViewById(R.id.enter_landing_speed);
+        Title.setText("  FTL and Discretion Calculator v "+versionName); //sets current app version
 
         //Reset = findViewById(R.id.Reset);
         Set_Time_Button = findViewById(R.id.Set_Time_Button);
@@ -290,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         First_Sector_Time.setText("");
         Second_Sector_Time.setText("");
         Planned_Duty_Time.setText("");
-        Sector_1.setChecked(true);
+        Sector_1.setChecked(true); //resets sector radio button to 1 and sets other buttons as off
         Sector_2.setChecked(false);
         Sector_3.setChecked(false);
         Sector_4.setChecked(false);
