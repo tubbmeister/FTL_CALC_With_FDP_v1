@@ -821,6 +821,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //MaxDiscretion_checkBox=findViewById(R.id.MaxDiscretion_checkBox);
 
+        FDP_Lookup(view);
+
         if (Press_For_Flight==false){
             String MaxDutyString = MAX_FDP.getText().toString();
             i = MaxDutyString.length();
