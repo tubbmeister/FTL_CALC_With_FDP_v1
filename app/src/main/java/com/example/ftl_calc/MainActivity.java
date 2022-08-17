@@ -130,6 +130,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Set_Time_Button.setEnabled(false); //prevents pressing wrong button at start
         Set_Time_Button.setTextColor(Color.GRAY);
+        Extended_checkBox2.setEnabled(false);
+        MaxDiscretion_checkBox.setEnabled(false);
 
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         timeFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -304,6 +306,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Sector_3.setChecked(false);
         Sector_4.setChecked(false);
         Set_Time_Button.setTextColor(Color.GRAY);
+        Extended_checkBox2.setEnabled(false);
+        MaxDiscretion_checkBox.setEnabled(false);
 
         Destination=1;
         Pressed=false;
@@ -483,8 +487,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else Duty_Start_Time.setText(hour + ":" + minute);
 
         }
-        Set_Time_Button.setEnabled(true);
+        Set_Time_Button.setEnabled(true); //re-enable set flight time button
         Set_Time_Button.setTextColor(Color.BLACK);
+        Extended_checkBox2.setEnabled(true);
+        MaxDiscretion_checkBox.setEnabled(true);
+
         String FDP_Start = Duty_Start_Time.getText().toString();
         int i = FDP_Start.length(); //NB time MUST have "00:00" not "0:00" or will fail
         if(i<5) {
@@ -815,6 +822,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //MaxDiscretion_checkBox=findViewById(R.id.MaxDiscretion_checkBox);
 
         if (Press_For_Flight==false){
+            String MaxDutyString = MAX_FDP.getText().toString();
+            i = MaxDutyString.length();
+            if(i<5) {
+                MaxDutyString=("0"+MaxDutyString);
+            }
+            MaxDuty1 = LocalTime.parse(MaxDutyString);
+            MaxDuty1=MaxDuty1.plusHours(DiscretionAmount.getHour()).plusHours(ExtendedDutyTime.getHour());
+            Blocks_on_Time.setText(MaxDuty1.toString());
             return;
         }
 

@@ -539,7 +539,7 @@
         android:id="@+id/textView5"
         android:layout_width="82dp"
         android:layout_height="16dp"
-        android:text="Max  FDP"
+        android:text="Max basic FDP"
         android:textAlignment="center"
         android:textColor="#0B0B0B"
         android:textSize="10sp"
