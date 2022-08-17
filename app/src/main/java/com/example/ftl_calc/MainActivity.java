@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private AppBarConfiguration appBarConfiguration;
     //private ActivityMainBinding binding;
     TimePicker datePicker1;
-    Boolean Pressed,Sector1_Pressed,Sector2_Pressed,Sector3_Pressed,Sector4_Pressed,DiscretionOn,ExtendedOn;
+    Boolean Pressed,Sector1_Pressed,Sector2_Pressed,Sector3_Pressed,Sector4_Pressed,DiscretionOn,ExtendedOn,Press_For_Flight=false;
     String[] First_Array,Array_0600_1329,Array_1330_1359,Array_1400_1429,Array_1430_1459,Array1600_1629,Array_1630_1659,Array_1700_0459,Array_0500_0514,Array_0515_0529,Array_0530_0544,Array_0545_0559;
     LocalTime date1, date2, date3, date4,date5, MaxDuty1, MinTurn, Duty_Start, Taxi1, Pre_Flight_Time1,SUTTO1;
     LocalTime FDP1,FDP2,FDP3,FDP4,FDP5,FDP6,FDP7,FDP8,FDP9,FDP10,FDP11,FDP12,FDP13,FDP14,FDP15,FDP16,FDP17,FDP18,FDP19,FDP20,FDP21,FDP22,FDP23,FDP24,FDP25,FDP26,FDP27,FDP28,FDP29,DiscretionAmount,ExtendedDutyTime,MaxDutyCalc,MaxDutyCalc1;
@@ -800,11 +800,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //  if (FDP1.after(01:30);
     }
 
+
+    public void Press_For_Flight_Length(View view){
+
+        Press_For_Flight=true;
+        Set_Time_Click(view);
+
+
+    }
+
+
     public void Set_Time_Click(View view) { //set time button and radiogroup change
 
         //MaxDiscretion_checkBox=findViewById(R.id.MaxDiscretion_checkBox);
 
-
+        if (Press_For_Flight==false){
+            return;
+        }
 
 
 

@@ -289,7 +289,7 @@
         android:layout_width="110dp"
         android:layout_height="59dp"
         android:backgroundTint="#E1E8EC"
-        android:onClick="Set_Time_Click"
+        android:onClick="Press_For_Flight_Length"
 
         android:text="Flight Time"
         android:textColor="@color/black"
