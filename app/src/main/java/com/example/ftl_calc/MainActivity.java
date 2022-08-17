@@ -827,9 +827,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(i<5) {
                 MaxDutyString=("0"+MaxDutyString);
             }
+            String DutyStart = Duty_Start_Time.getText().toString();
+            i = DutyStart.length();
+            if(i<5) {
+                DutyStart=("0"+DutyStart);
+            }
             MaxDuty1 = LocalTime.parse(MaxDutyString);
+            Duty_Start = LocalTime.parse(DutyStart);
             MaxDuty1=MaxDuty1.plusHours(DiscretionAmount.getHour()).plusHours(ExtendedDutyTime.getHour());
-            Blocks_on_Time.setText(MaxDuty1.toString());
+            sum=Duty_Start.plusHours(MaxDuty1.getHour()).plusMinutes(MaxDuty1.getMinute());
+            Blocks_on_Time.setText(sum.toString());
+
             return;
         }
 
@@ -937,6 +945,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             DutyStart=("0"+DutyStart);
         }
 
+
         // String MaxDutyString="12:00";
 
 
@@ -978,7 +987,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Last_Take_Off1.setText(sum3.toString());
             sum4=sum.plusHours(Pre_Flight_Time1.getHour()).plusMinutes(Pre_Flight_Time1.getMinute());
             //date5=timeFormat.format((new Date(sum)));
-            Planned_Duty_Time.setText(sum4.toString());
+
+            Planned_Duty_Time.setText(sum.toString());
 
 
         }
