@@ -208,13 +208,13 @@
 
     <TextView
         android:id="@+id/FirstHour"
-        android:layout_width="115dp"
-        android:layout_height="33dp"
-        android:text="Total Planned Duty Time"
+        android:layout_width="125dp"
+        android:layout_height="21dp"
+        android:text="Total Planned Time"
         android:textAlignment="center"
         android:textColor="@color/black"
         app:layout_constraintTop_toBottomOf="@+id/CalcUplift"
-        tools:layout_editor_absoluteX="17dp" />
+        tools:layout_editor_absoluteX="5dp" />
 
     <TextView
         android:id="@+id/Last_Takeoff_Time"
@@ -270,11 +270,9 @@
 
     <TimePicker
         android:id="@+id/datePicker1"
-        android:layout_width="220dp"
-        android:layout_height="311dp"
+        android:layout_width="231dp"
+        android:layout_height="336dp"
 
-
-        android:layout_marginTop="20dp"
 
         android:scaleX="0.90"
         android:scaleY="0.90"
@@ -506,6 +504,7 @@
         android:layout_width="91dp"
         android:layout_height="49dp"
         android:text="TextView"
+        android:visibility="invisible"
         app:layout_constraintEnd_toStartOf="@+id/MaxDiscretion_checkBox"
         app:layout_constraintTop_toTopOf="@+id/MaxDiscretion_checkBox" />
 
