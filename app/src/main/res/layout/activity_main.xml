@@ -14,9 +14,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
+        android:backgroundTint="#E1E8EC"
         android:ems="10"
         android:hint="Fourth Sector"
-        android:backgroundTint="#E1E8EC"
         android:inputType="time"
         android:minHeight="48dp"
         android:text="0:00"
@@ -53,9 +53,10 @@
 
     <EditText
         android:id="@+id/Duty_Start_Time"
-        android:layout_width="83dp"
+        android:layout_width="92dp"
         android:layout_height="54dp"
         android:layout_marginStart="1dp"
+        android:layout_marginTop="16dp"
         android:height="0dp"
         android:background="@drawable/border"
         android:backgroundTint="#E1E8EC"
@@ -66,27 +67,8 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/Num_Sectors"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Num_Sectors"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/Num_Sectors"
-        android:layout_width="71dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="8dp"
-
-        android:height="0dp"
-        android:inputType="number"
-        android:text="No. of \n Sectors"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:visibility="invisible"
-        app:layout_constraintStart_toEndOf="@+id/Duty_Start_Time"
-        app:layout_constraintTop_toTopOf="@+id/First_Sector_Time" />
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
 
     <Button
@@ -110,16 +92,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MAX_FDP" />
 
-    <EditText
+    <TextView
         android:id="@+id/CalcUplift"
         android:layout_width="86dp"
         android:layout_height="49dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:clickable="false"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Turn Round  = "
+
+        android:text="Expected\nTurn Round =\nTime "
         android:textAlignment="center"
         android:textColor="#090909"
         android:textSize="13dp"
@@ -134,9 +116,9 @@
         android:layout_width="77dp"
         android:layout_height="45dp"
         android:background="@drawable/border"
+        android:backgroundTint="#E1E8EC"
         android:ems="0"
         android:inputType="number"
-        android:backgroundTint="#E1E8EC"
         android:text="0:45"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -147,7 +129,7 @@
 
     <EditText
         android:id="@+id/First_Sector_Time"
-        android:layout_width="100dp"
+        android:layout_width="90dp"
         android:layout_height="50dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/border"
@@ -170,10 +152,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
+        android:backgroundTint="#E1E8EC"
         android:ems="10"
         android:focusable="true"
         android:hint="Second Sector"
-        android:backgroundTint="#E1E8EC"
         android:inputType="time"
         android:minHeight="48dp"
         android:text="0:00"
@@ -191,8 +173,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:ems="10"
         android:backgroundTint="#E1E8EC"
+        android:ems="10"
         android:hint="Third Sector"
         android:inputType="time"
         android:minHeight="48dp"
@@ -228,14 +210,15 @@
 
     <TextView
         android:id="@+id/Planned_Duty_Time"
-        android:layout_width="116dp"
-        android:layout_height="43dp"
+        android:layout_width="125dp"
+        android:layout_height="41dp"
+        android:background="@drawable/border"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:background="@drawable/border"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/FirstHour"
+        app:layout_constraintStart_toStartOf="@+id/FirstHour"
         app:layout_constraintTop_toBottomOf="@+id/FirstHour" />
 
     <TextView
@@ -248,13 +231,14 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/Last_Takeoff_Time"
-        app:layout_constraintStart_toEndOf="@+id/Planned_Duty_Time"
+        app:layout_constraintStart_toEndOf="@+id/FirstHour"
         app:layout_constraintTop_toBottomOf="@+id/FirstHour" />
 
     <EditText
         android:id="@+id/MAX_FDP"
-        android:layout_width="83dp"
+        android:layout_width="92dp"
         android:layout_height="54dp"
+        android:layout_marginStart="1dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/border"
         android:backgroundTint="#E1E8EC"
@@ -296,7 +280,7 @@
 
     <RadioGroup
         android:id="@+id/Sectors_Group"
-        android:layout_width="65dp"
+        android:layout_width="60dp"
         android:layout_height="193dp"
         android:background="@color/white"
         android:onClick="AddListenerSector_Group"
@@ -307,7 +291,7 @@
 
         <RadioButton
             android:id="@+id/Sector_1"
-            android:layout_width="65dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/border"
             android:backgroundTint="#E1E8EC"
@@ -358,7 +342,7 @@
 
     <TextView
         android:id="@+id/Last_Take_Off1"
-        android:layout_width="100dp"
+        android:layout_width="90dp"
         android:layout_height="50dp"
         android:layout_centerVertical="true"
         android:background="@drawable/border"
@@ -375,7 +359,7 @@
 
     <TextView
         android:id="@+id/Last_Take_Off2"
-        android:layout_width="100dp"
+        android:layout_width="90dp"
         android:layout_height="50dp"
         android:background="@drawable/border"
         android:backgroundTint="#E1E8EC"
@@ -393,7 +377,7 @@
 
     <TextView
         android:id="@+id/Last_Take_Off3"
-        android:layout_width="100dp"
+        android:layout_width="90dp"
         android:layout_height="50dp"
         android:background="@drawable/border"
         android:backgroundTint="#E1E8EC"
@@ -411,7 +395,7 @@
 
     <TextView
         android:id="@+id/Last_Take_Off4"
-        android:layout_width="100dp"
+        android:layout_width="90dp"
         android:layout_height="50dp"
         android:background="@drawable/border"
         android:backgroundTint="#E1E8EC"
@@ -430,10 +414,10 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="100dp"
+        android:layout_width="90dp"
         android:layout_height="29dp"
         android:background="@drawable/border"
-        android:paddingTop="7dp"
+        android:paddingTop="4dp"
         android:text="Last off block"
         android:textAlignment="center"
         android:textColor="#0B0B0B"
@@ -449,26 +433,26 @@
         android:background="@drawable/border"
         android:backgroundTint="#E1E8EC"
 
-        android:text="SUTTO 10 mins"
         android:gravity="center"
+        android:text="SUTTO 10 mins"
         android:textColor="#0B0A0A"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/Min_Turn_Time"
-        app:layout_constraintTop_toBottomOf="@+id/Sectors_Group" />
+        app:layout_constraintTop_toBottomOf="@+id/Last_Take_Off4" />
 
     <Button
         android:id="@+id/Reset"
-        android:layout_width="66dp"
-        android:layout_height="47dp"
+        android:layout_width="129dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="8dp"
         android:onClick="Reset"
+        android:textStyle="bold"
         android:text="Reset"
         android:textAlignment="center"
         android:textColor="#0C0C0C"
-        android:textSize="8sp"
-        app:layout_constraintBottom_toTopOf="@+id/Duty_Start_Time"
-        app:layout_constraintEnd_toStartOf="@+id/enter_landing_speed"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/Extended_checkBox2"
+        app:layout_constraintTop_toBottomOf="@+id/Extended_checkBox2" />
 
     <CheckBox
         android:id="@+id/MaxDiscretion_checkBox"
@@ -510,11 +494,11 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="100dp"
+        android:layout_width="90dp"
         android:layout_height="29dp"
-        android:paddingTop="7dp"
-        android:text="Flt Time"
         android:background="@drawable/border"
+        android:paddingTop="4dp"
+        android:text="Flt Time"
         android:textAlignment="center"
         android:textColor="#0B0B0B"
         android:textStyle="bold"
@@ -538,12 +522,26 @@
         android:id="@+id/textView5"
         android:layout_width="82dp"
         android:layout_height="16dp"
+        android:layout_marginStart="1dp"
         android:text="Max basic FDP"
         android:textAlignment="center"
         android:textColor="#0B0B0B"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MAX_FDP" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="132dp"
+        android:layout_height="29dp"
+        android:paddingTop="5dp"
+        android:text="All Times UK local"
+        android:textAlignment="center"
+        android:textColor="#4CAF50"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/enter_landing_speed"
+        app:layout_constraintTop_toBottomOf="@+id/enter_landing_speed" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
