@@ -306,6 +306,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Sector_3.setChecked(false);
         Sector_4.setChecked(false);
         Set_Time_Button.setTextColor(Color.GRAY);
+        Set_Time_Button.setEnabled(false);
         Extended_checkBox2.setEnabled(false);
         MaxDiscretion_checkBox.setEnabled(false);
 

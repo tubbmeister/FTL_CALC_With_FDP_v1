@@ -224,7 +224,7 @@
     <TextView
         android:id="@+id/Blocks_on_Time"
         android:layout_width="121dp"
-        android:layout_height="43dp"
+        android:layout_height="41dp"
         android:background="@drawable/border"
         android:textAlignment="center"
         android:textColor="@color/black"

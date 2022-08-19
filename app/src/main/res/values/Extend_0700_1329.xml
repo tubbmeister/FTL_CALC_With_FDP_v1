@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Extend_0700_1329">
+        <item>14:00</item>    <!-- duty time -->
+        <item>13:30</item>     <!-- 0 deg 5000' elev -->
+        <item>13:00</item>   <!-- 0 deg 10000' elev -->
+
+
+
+
+
+
+
+    </string-array>
+
+</resources>
