@@ -59,7 +59,7 @@
         android:layout_marginTop="16dp"
         android:height="0dp"
         android:background="@drawable/border"
-        android:backgroundTint="#E1E8EC"
+
         android:hint="Duty st in\n Local"
         android:inputType="time"
         android:onClick="OnDutyStartTimeClick"
@@ -241,8 +241,9 @@
         android:layout_marginStart="1dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/border"
-        android:backgroundTint="#E1E8EC"
+
         android:ems="10"
+
         android:hint="MAX FDP"
         android:inputType="time"
         android:textAlignment="center"
@@ -256,6 +257,10 @@
         android:id="@+id/datePicker1"
         android:layout_width="231dp"
         android:layout_height="336dp"
+        android:theme="@style/DialogStyler2"
+
+
+
 
 
         android:scaleX="0.90"
@@ -270,8 +275,12 @@
         android:id="@+id/Set_Time_Button"
         android:layout_width="110dp"
         android:layout_height="59dp"
-        android:backgroundTint="#E1E8EC"
+
+
         android:onClick="Press_For_Flight_Length"
+
+        android:background="@drawable/shine_line"
+
 
         android:text="Flight Time"
         android:textColor="@color/black"
@@ -334,6 +343,7 @@
 
         android:backgroundTint="#E1E8EC"
         android:onClick="FDP_Lookup"
+
 
         android:text="Duty Start Time"
         android:textColor="@color/black"
@@ -445,12 +455,14 @@
         android:layout_width="129dp"
         android:layout_height="67dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/shine_line"
         android:onClick="Reset"
-        android:textStyle="bold"
         android:text="Reset"
         android:textAlignment="center"
         android:textColor="#0C0C0C"
         android:textSize="20sp"
+        android:textStyle="bold"
+
         app:layout_constraintStart_toStartOf="@+id/Extended_checkBox2"
         app:layout_constraintTop_toBottomOf="@+id/Extended_checkBox2" />
 
@@ -460,7 +472,7 @@
         android:layout_height="49dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/border"
-        android:backgroundTint="#E1E8EC"
+
 
 
         android:text="Max Discretion"
@@ -474,7 +486,7 @@
         android:layout_width="129dp"
         android:layout_height="49dp"
         android:background="@drawable/border"
-        android:backgroundTint="#E1E8EC"
+
 
 
         android:text="Extended Duty"

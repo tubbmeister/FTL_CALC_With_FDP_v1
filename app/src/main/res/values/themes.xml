@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.FTL_CALC" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.FTL_CALC" parent="Theme.AppCompat.Light">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
@@ -22,4 +22,20 @@
     <style name="Theme.FTL_CALC.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.FTL_CALC.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="DialogStyler2" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/colorPrimary</item>
+        <!--time background color-->
+        
+        <!--selected day-->
+
+        <item name="android:colorPrimary">@color/colorPrimaryDark</item>
+        <item name="android:colorControlActivated">@android:color/holo_red_dark</item>
+        <item name="android:textColorPrimary">@android:color/black</item>
+
+
+        <item name="android:colorPrimaryDark">@color/black</item>
+        <item name="android:textColorSecondary">@android:color/holo_orange_dark</item>
+        <!--inner time wheel colours-->
+    </style>
+
 </resources>
