@@ -549,7 +549,7 @@
         android:paddingTop="5dp"
         android:text="All Times UK local"
         android:textAlignment="center"
-        android:textColor="#4CAF50"
+        android:textColor="#B30033"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/enter_landing_speed"
