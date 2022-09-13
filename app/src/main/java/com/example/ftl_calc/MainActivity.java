@@ -549,7 +549,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Destination_Array=3; //must reduce to access 0 based array
             }
 
-            if (FDP1.MIN.isAfter(FDP2) && FDP1.isBefore(FDP3)){
+            if (FDP1.isAfter(FDP2) && FDP1.isBefore(FDP3)){
                 Flight_Duty_Table_Lookup=1;
                 First_Array = r.getStringArray(R.array.Array_0600_1329);
                 Y3=First_Array[Destination_Array-1];
